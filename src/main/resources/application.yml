@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: aidev
+  ai:
+    openai:
+      api-key: <<>>>>
+      chat:
+        options:
+          model: "gpt-4o"
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+task: xyz
+
+logging:
+  level:
+    org:
+      eu:
+        dabrowski:
+          aidev: DEBUG
