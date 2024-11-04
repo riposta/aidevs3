@@ -29,29 +29,34 @@ public class XyzTask extends AbstractTask {
 
         Playwright playwright = Playwright.create();
         Browser browser = playwright.webkit().launch();
-        Page page = browser.newPage();
-        page.navigate("https://xyz.ag3nts.org/");
-        Locator login = page.getByPlaceholder("Login");
-        login.fill(LOGIN);
-        Locator password = page.getByPlaceholder("Password");
-        password.fill(PASSWORD);
-        Locator humanQuestion = page.locator("#human-question");
-        humanQuestion.textContent();
+        while (true) {
+            Page page = browser.newPage();
+            page.navigate("https://xyz.ag3nts.org/");
+            Locator login = page.getByPlaceholder("Login");
+            login.fill(LOGIN);
+            Locator password = page.getByPlaceholder("Password");
+            password.fill(PASSWORD);
+            Locator humanQuestion = page.locator("#human-question");
+            humanQuestion.textContent();
 
 
-        ChatResponse response = ChatClient.builder(chatModel)
-                .build().prompt()
-                .user(humanQuestion.textContent())
-                .system("Response only with the year for the question. Do not add any additional text.")
-                .call()
-                .chatResponse();
-        String year = response.getResult().getOutput().getContent();
-        Locator answer = page.getByPlaceholder("Answer");
-        answer.fill(year);
-        Locator submitButton = page.locator("#submit");
-        submitButton.click();
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-        String pageContent = page.content();
+            ChatResponse response = ChatClient.builder(chatModel)
+                    .build().prompt()
+                    .user(humanQuestion.textContent())
+                    .system("Response only with the year for the question. Do not add any additional text.")
+                    .call()
+                    .chatResponse();
+            String year = response.getResult().getOutput().getContent();
+            Locator answer = page.getByPlaceholder("Answer");
+            answer.fill(year);
+            Locator submitButton = page.locator("#submit");
+            submitButton.click();
+            page.waitForLoadState(LoadState.NETWORKIDLE);
+            String pageContent = page.content();
+            if (!pageContent.contains("Anty-human captcha incorrect!")) {
+                break;
+            }
+        }
         playwright.close();
         return null;
 
