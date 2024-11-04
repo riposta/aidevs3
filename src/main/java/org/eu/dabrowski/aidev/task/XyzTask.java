@@ -6,32 +6,43 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.eu.dabrowski.aidev.client.FileClient;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
+@Slf4j
 public class XyzTask extends AbstractTask {
     private static String TASK_NAME = "xyz";
 
-   private static String LOGIN = "tester";
-   private static String PASSWORD = "574e112a";
+    private static String LOGIN = "tester";
+    private static String PASSWORD = "574e112a";
 
-    public XyzTask(OpenAiChatModel chatModel) {
+    private final FileClient fileClient;
+
+    public XyzTask(OpenAiChatModel chatModel, FileClient fileClient) {
         super(chatModel);
+        this.fileClient = fileClient;
     }
 
 
     @Override
     @SneakyThrows
     Object compute(Object object) {
-
+        String pageContent = null;
+        String url = "https://xyz.ag3nts.org";
         Playwright playwright = Playwright.create();
         Browser browser = playwright.webkit().launch();
         while (true) {
             Page page = browser.newPage();
-            page.navigate("https://xyz.ag3nts.org/");
+            page.navigate("https://xyz.ag3nts.org");
             Locator login = page.getByPlaceholder("Login");
             login.fill(LOGIN);
             Locator password = page.getByPlaceholder("Password");
@@ -52,14 +63,24 @@ public class XyzTask extends AbstractTask {
             Locator submitButton = page.locator("#submit");
             submitButton.click();
             page.waitForLoadState(LoadState.NETWORKIDLE);
-            String pageContent = page.content();
+            pageContent = page.content();
             if (!pageContent.contains("Anty-human captcha incorrect!")) {
-                break;
+               break;
             }
+
         }
         playwright.close();
-        return null;
 
+        if(Objects.nonNull(pageContent)){
+            Pattern pattern = Pattern.compile("<a href=\"(.*?)\">Version 0\\.13\\.4b<\\/a>", Pattern.DOTALL);
+            Matcher matcher = pattern.matcher(pageContent);
+            if (matcher.find()) {
+                url = url + matcher.group(1);
+                log.info("\n" + fileClient.getFileContent(url));
+            }
+        }
+
+        return null;
     }
 
     @Override
