@@ -8,6 +8,11 @@ spring:
         options:
           model: "gpt-4o"
 
+client:
+  xyz:
+    url: https://xyz.ag3nts.org
+
+
 feign:
   client:
     config:
@@ -15,7 +20,7 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
 
-task: xyz
+task: XyzAntiCaptcha
 
 logging:
   level:

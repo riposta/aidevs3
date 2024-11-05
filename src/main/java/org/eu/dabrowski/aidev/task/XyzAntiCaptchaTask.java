@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.FileClient;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Component;
@@ -19,30 +20,36 @@ import java.util.regex.Pattern;
 
 @Component
 @Slf4j
-public class XyzTask extends AbstractTask {
-    private static String TASK_NAME = "xyz";
+public class XyzAntiCaptchaTask extends AbstractTask {
+    private static String TASK_NAME = "XyzAntiCaptcha";
 
     private static String LOGIN = "tester";
     private static String PASSWORD = "574e112a";
 
     private final FileClient fileClient;
 
-    public XyzTask(OpenAiChatModel chatModel, FileClient fileClient) {
+    private final ChatClient chatClient;
+
+    public XyzAntiCaptchaTask(OpenAiChatModel chatModel, FileClient fileClient) {
         super(chatModel);
         this.fileClient = fileClient;
+        chatClient = ChatClient.builder(chatModel)
+                .defaultAdvisors(new SimpleLoggerAdvisor())
+                .build();
     }
 
 
     @Override
     @SneakyThrows
     Object compute(Object object) {
+        String output = null;
         String pageContent = null;
         String url = "https://xyz.ag3nts.org";
         Playwright playwright = Playwright.create();
-        Browser browser = playwright.webkit().launch();
+        Browser browser = playwright.chromium().launch();
         while (true) {
             Page page = browser.newPage();
-            page.navigate("https://xyz.ag3nts.org");
+            page.navigate(url);
             Locator login = page.getByPlaceholder("Login");
             login.fill(LOGIN);
             Locator password = page.getByPlaceholder("Password");
@@ -51,8 +58,7 @@ public class XyzTask extends AbstractTask {
             humanQuestion.textContent();
 
 
-            ChatResponse response = ChatClient.builder(chatModel)
-                    .build().prompt()
+            ChatResponse response = chatClient.prompt()
                     .user(humanQuestion.textContent())
                     .system("Response only with the year for the question. Do not add any additional text.")
                     .call()
@@ -65,10 +71,13 @@ public class XyzTask extends AbstractTask {
             page.waitForLoadState(LoadState.NETWORKIDLE);
             pageContent = page.content();
             if (!pageContent.contains("Anty-human captcha incorrect!")) {
+                output = getFlag(pageContent);
                break;
             }
+            page.close();
 
         }
+        browser.close();
         playwright.close();
 
         if(Objects.nonNull(pageContent)){
@@ -80,7 +89,7 @@ public class XyzTask extends AbstractTask {
             }
         }
 
-        return null;
+        return output;
     }
 
     @Override

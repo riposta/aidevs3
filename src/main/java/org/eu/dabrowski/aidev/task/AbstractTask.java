@@ -8,6 +8,9 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Slf4j
 @Data
 public abstract class AbstractTask {
@@ -22,11 +25,23 @@ public abstract class AbstractTask {
     public void process(String taskName) {
         log.info("Task {} compute", taskName);
         Object taskOutput = compute(taskName);
-        log.info("Task {} end", taskOutput);
+        log.info("Task {} end. Result {}",taskName, taskOutput);
 
     }
 
     abstract Object compute(Object taskResponse);
 
     public abstract boolean accept(String taskName);
+
+    public String getFlag(String text) {
+        String patternString = "\\{\\{FLG:(.*?)\\}\\}";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(text);
+
+        if (matcher.find()){
+            return matcher.group(1);
+        } else {
+            return null;
+        }
+    }
 }
