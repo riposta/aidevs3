@@ -11,7 +11,9 @@ spring:
 client:
   xyz:
     url: https://xyz.ag3nts.org
-
+  centrala:
+    url: https://centrala.ag3nts.org
+    api-key: <<>>
 
 feign:
   client:
