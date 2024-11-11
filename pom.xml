@@ -14,7 +14,9 @@
     <name>aidev</name>
     <description>aidev</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <spring-ai.version>1.0.0-M3</spring-ai.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
     </properties>
@@ -111,6 +113,20 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-nativebin-osxm1</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -136,38 +152,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>6.3.0</version>
-                <executions>
-                    <execution>
-                        <id>generate-api</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <apiPackage>dabrowski.eu.org.aidevs.renderform.api</apiPackage>
-                            <modelPackage>dabrowski.eu.org.aidevs.renderform.model</modelPackage>
-                            <modelNamePrefix>Render</modelNamePrefix>
-                            <supportingFilesToGenerate>
-                                ApiUtil.java
-                            </supportingFilesToGenerate>
-                            <inputSpec>${project.basedir}/src/main/resources/files/renderform-api.json</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <skipValidateSpec>true</skipValidateSpec>
-                            <configOptions>
-                                <serializableModel>true</serializableModel>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <delegatePattern>true</delegatePattern>
-                                <interfaceOnly>true</interfaceOnly>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
-                                <additionalModelTypeAnnotations>@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true) @lombok.NoArgsConstructor @lombok.AllArgsConstructor @lombok.Builder</additionalModelTypeAnnotations>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
