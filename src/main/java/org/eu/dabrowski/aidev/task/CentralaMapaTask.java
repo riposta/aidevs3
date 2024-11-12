@@ -78,7 +78,9 @@ public class CentralaMapaTask extends AbstractTask {
 
         chatResponse = chatClient.prompt()
                 .user("Three of four pictures describe the same city. One is incorrect." +
-                        "Please return which city it is. Please analyze carefully descriptions. Tip: The city has \"spichlerze i twierdze\". " +
+                        "Please return which city it is. Please analyze carefully descriptions. " +
+                        "Described streets must exist is the city." +
+                        " Tip: The city has \"spichlerze i twierdze\". " +
                         "Return only the city name without any additional description.")
                 .advisors(advisorSpec -> advisorSpec
                         .param(CHAT_MEMORY_CONVERSATION_ID_KEY, msgId))
