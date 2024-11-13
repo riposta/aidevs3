@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
 import org.eu.dabrowski.aidev.client.FileClient;
-import org.eu.dabrowski.aidev.model.centrala.xyz.ReportRequest;
+import org.eu.dabrowski.aidev.model.centrala.ReportRequest;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.openai.OpenAiChatModel;

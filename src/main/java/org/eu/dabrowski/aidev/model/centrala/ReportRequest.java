@@ -1,4 +1,4 @@
-package org.eu.dabrowski.aidev.model.centrala.xyz;
+package org.eu.dabrowski.aidev.model.centrala;
 
 
 import lombok.AllArgsConstructor;

@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
 import org.eu.dabrowski.aidev.client.FileClient;
 import org.eu.dabrowski.aidev.client.XyzClient;
-import org.eu.dabrowski.aidev.model.centrala.xyz.ReportRequest;
+import org.eu.dabrowski.aidev.model.centrala.ReportRequest;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;

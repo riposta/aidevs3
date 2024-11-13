@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
 import org.eu.dabrowski.aidev.client.FileClient;
-import org.eu.dabrowski.aidev.model.centrala.xyz.ReportRequest;
+import org.eu.dabrowski.aidev.model.centrala.ReportRequest;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.audio.transcription.AudioTranscriptionResponse;
 import org.springframework.ai.chat.client.ChatClient;
