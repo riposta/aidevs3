@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class CentralaCenzuraTask extends AbstractTask {
-    private static String TASK_NAME = "CentralaCenzura";
 
     private static String SYSTEM_MESSAGE = "Your task is to identify and replace any personal data present in a sentence with the word \"CENZURA.\" Personal data includes but is not limited to names, addresses, phone numbers, email addresses, social security numbers, age and any other identifiable information. Below are examples to guide you:\n" +
             "\n" +
@@ -80,11 +79,5 @@ public class CentralaCenzuraTask extends AbstractTask {
 
         return getFlag(response.toString());
     }
-
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
-
 
 }

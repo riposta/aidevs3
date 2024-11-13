@@ -31,7 +31,6 @@ public abstract class AbstractTask {
 
     abstract Object compute(Object taskResponse);
 
-    public abstract boolean accept(String taskName);
 
     public String getFlag(String text) {
         String patternString = "\\{\\{FLG:(.*?)\\}\\}";
@@ -43,5 +42,10 @@ public abstract class AbstractTask {
         } else {
             return null;
         }
+    }
+
+    public boolean accept(String taskName) {
+        return this.getClass().getSimpleName()
+                .replace("Task", "").equals(taskName);
     }
 }

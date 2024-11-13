@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
 import org.eu.dabrowski.aidev.client.FileClient;
-import org.eu.dabrowski.aidev.client.XyzClient;
 import org.eu.dabrowski.aidev.model.centrala.xyz.ReportRequest;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
@@ -22,11 +21,9 @@ import java.util.Base64;
 @Component
 @Slf4j
 public class CentralaRobotIdTask extends AbstractTask {
-    private static String TASK_NAME = "CentralaRobotId";
 
     private static String SYSTEM_MESSAGE = "Generate image based on the description below:\n\n" ;
     private final FileClient fileClient;
-    private final XyzClient xyzClient;
 
     private final CentralaClient centralaClient;
 
@@ -47,10 +44,10 @@ public class CentralaRobotIdTask extends AbstractTask {
 
 
 
-    public CentralaRobotIdTask(OpenAiChatModel chatModel, FileClient fileClient, XyzClient xyzClient, CentralaClient centralaClient, OpenAiImageModel openaiImageModel) {
+    public CentralaRobotIdTask(OpenAiChatModel chatModel, FileClient fileClient,
+                               CentralaClient centralaClient, OpenAiImageModel openaiImageModel) {
         super(chatModel);
         this.fileClient = fileClient;
-        this.xyzClient = xyzClient;
         this.centralaClient = centralaClient;
         this.openaiImageModel = openaiImageModel;
     }
@@ -89,10 +86,6 @@ public class CentralaRobotIdTask extends AbstractTask {
         return getFlag(centralaReport.toString());
     }
 
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
 
 
 }

@@ -19,7 +19,6 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 @Component
 @Slf4j
 public class Xyz0134bTask extends AbstractTask {
-    private static String TASK_NAME = "Xyz0134b";
 
     private static String SYSTEM_MESSAGE = "You are chat assistant. " +
             "Reply for the question. Reply only in English.\n" +
@@ -74,10 +73,6 @@ public class Xyz0134bTask extends AbstractTask {
         }
     }
 
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
 
 
 }

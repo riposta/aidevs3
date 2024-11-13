@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class CentralaJsonTask extends AbstractTask {
-    private static String TASK_NAME = "CentralaJson";
 
     private static String SYSTEM_MESSAGE = "You are chat assistant. " +
             "Reply for the question.";
@@ -96,10 +95,6 @@ public class CentralaJsonTask extends AbstractTask {
         return getFlag(response.toString());
     }
 
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
 
 
 }

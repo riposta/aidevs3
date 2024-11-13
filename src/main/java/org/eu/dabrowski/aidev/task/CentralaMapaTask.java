@@ -2,9 +2,6 @@ package org.eu.dabrowski.aidev.task;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.eu.dabrowski.aidev.client.CentralaClient;
-import org.eu.dabrowski.aidev.client.FileClient;
-import org.eu.dabrowski.aidev.client.XyzClient;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -27,35 +24,19 @@ import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvis
 public class CentralaMapaTask extends AbstractTask {
     private static String TASK_NAME = "CentralaMapa";
 
-    private static String SYSTEM_MESSAGE = "";
     private ChatClient chatClient;
-    private final FileClient fileClient;
-    private final XyzClient xyzClient;
-
-    private final CentralaClient centralaClient;
-
-    @Value("${client.centrala.url}")
-    private String centralaUrl;
-
-    @Value("${client.centrala.api-key}")
-    private String centralaApiKey;
 
     @Value("classpath:/files/mapa.jpeg")
     private Resource mapFile;
 
 
 
-    public CentralaMapaTask(OpenAiChatModel chatModel, FileClient fileClient, XyzClient xyzClient, CentralaClient centralaClient) {
+    public CentralaMapaTask(OpenAiChatModel chatModel) {
         super(chatModel);
-        this.fileClient = fileClient;
-        this.xyzClient = xyzClient;
         chatClient = ChatClient.builder(chatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()),
                         new SimpleLoggerAdvisor())
                 .build();
-
-
-        this.centralaClient = centralaClient;
     }
 
 
@@ -90,11 +71,6 @@ public class CentralaMapaTask extends AbstractTask {
 
 
         return responseContent;
-    }
-
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
     }
 
 

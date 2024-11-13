@@ -40,7 +40,6 @@ import java.util.zip.ZipFile;
 @Component
 @Slf4j
 public class CentralaPrzesluchanieTask extends AbstractTask {
-    private static String TASK_NAME = "CentralaPrzesluchanie";
 
     private static String SYSTEM_MESSAGE = "Jesteś detektywem. Poniżej są zeznania świadków. Pamiętaj, że zeznania świadków mogą być sprzeczne, niektórzy z nich mogą się mylić, a inni odpowiadać w dość dziwaczny sposób.\n" +
             "Dowiedz się na  jakim wydziale i uczelni pracował Andrzej Maj.\n" +
@@ -132,10 +131,6 @@ public class CentralaPrzesluchanieTask extends AbstractTask {
         return getFlag(response.toString());
     }
 
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
 
 
     @SneakyThrows

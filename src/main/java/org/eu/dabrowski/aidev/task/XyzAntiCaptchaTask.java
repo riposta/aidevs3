@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 @Component
 @Slf4j
 public class XyzAntiCaptchaTask extends AbstractTask {
-    private static String TASK_NAME = "XyzAntiCaptcha";
 
     private static String LOGIN = "tester";
     private static String PASSWORD = "574e112a";
@@ -92,8 +91,4 @@ public class XyzAntiCaptchaTask extends AbstractTask {
         return output;
     }
 
-    @Override
-    public boolean accept(String taskName) {
-        return taskName.equals(TASK_NAME);
-    }
 }
