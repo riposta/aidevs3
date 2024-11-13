@@ -30,3 +30,9 @@ logging:
       eu:
         dabrowski:
           aidev: DEBUG
+
+file:
+  storage:
+    location: <<>>
+
+my-addresss: http://<<>>

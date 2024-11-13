@@ -62,11 +62,11 @@ public class CentralaPrzesluchanieTask extends AbstractTask {
     private final Encoder encoder;
 
     public CentralaPrzesluchanieTask(OpenAiChatModel chatModel, FileClient fileClient, CentralaClient centralaClient,
-                                     OpenAiAudioTranscriptionModel transcriptionModel, OpenAiAudioTranscriptionModel transcriptionModel1) {
+                                     OpenAiAudioTranscriptionModel transcriptionModel) {
         super(chatModel);
         this.fileClient = fileClient;
         this.centralaClient = centralaClient;
-        this.transcriptionModel = transcriptionModel1;
+        this.transcriptionModel = transcriptionModel;
         this.encoder = new Encoder();
         chatClient = ChatClient.builder(chatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()),
