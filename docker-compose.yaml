@@ -1,0 +1,10 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+#    volumes:
+#      - ~/tmp/qdrant_data:/qdrant/storage
+    labels:
+      org.springframework.boot.service-connection: qdrant/qdrant

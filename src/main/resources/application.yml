@@ -36,3 +36,7 @@ file:
     location: <<>>
 
 my-addresss: http://<<>>
+
+qdrant:
+  arvix:
+    collection-name: arvix
