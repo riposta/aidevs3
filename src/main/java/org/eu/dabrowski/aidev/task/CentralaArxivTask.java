@@ -44,12 +44,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CentralaArxivTask extends AbstractTask {
 
-    private static String SYSTEM_MESSAGE = "Categoryze the text to four categories:\n" +
-            "information about captured people or traces of their presence -> PEOPLE\n" +
-            "information about repaired hardware faults -> HARDWARE\n" +
-            "information about repaired software faults -> SOFTWARE\n" +
-            "other information including text about pizza and abandoned towns -> OTHER\n" +
-            "Return only category without any additional text.";
 
     private ChatClient chatClient;
     private final FileClient fileClient;
