@@ -34,7 +34,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MimeTypeUtils;
 
-import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -69,9 +68,6 @@ public class CentralaArxivTask extends AbstractTask {
     private final OpenAiAudioTranscriptionOptions transcriptionOptions;
 
     private List<ArxivContent> contents;
-
-    @Value("${qdrant.arvix.collection-name}")
-    private String arvixCollectionName;
 
     private final VectorStore arvixVectorStore;
 
@@ -215,29 +211,6 @@ public class CentralaArxivTask extends AbstractTask {
         return getFlag(response.toString());
     }
 
-    public String extractJson(String text) {
-        if (text == null || text.isEmpty()) {
-            return "";
-        }
-
-        int firstBrace = text.indexOf('{');
-        int lastBrace = text.lastIndexOf('}');
-
-        if (firstBrace == -1 || lastBrace == -1 || firstBrace > lastBrace) {
-            return "";
-        }
-
-        return text.substring(firstBrace, lastBrace + 1);
-    }
-
-    public static String getFileExtension(File file) {
-        String fileName = file.getName();
-        int lastIndexOfDot = fileName.lastIndexOf('.');
-        if (lastIndexOfDot == -1) {
-            return "";
-        }
-        return fileName.substring(lastIndexOfDot + 1).toLowerCase();
-    }
 
 
 }
