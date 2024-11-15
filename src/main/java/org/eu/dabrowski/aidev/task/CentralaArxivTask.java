@@ -97,14 +97,6 @@ public class CentralaArxivTask extends AbstractTask {
         contents = new ArrayList<>();
     }
 
-    private String getCategoryFromText(String input) {
-        ChatResponse chatResponse = chatClient.prompt()
-                .user(input)
-                .system(SYSTEM_MESSAGE)
-                .call()
-                .chatResponse();
-        return chatResponse.getResult().getOutput().getContent();
-    }
 
     @SneakyThrows
     private String getTranscriptionOfAudioFile(String url) {
@@ -139,20 +131,15 @@ public class CentralaArxivTask extends AbstractTask {
                 ".container > div.authors, .container > audio");
         String currentTitle = null;
         StringBuilder currentContent = new StringBuilder();
-        List<String> currentImages = new ArrayList<>();
 
         for (Element element : sections) {
             if (element.tagName().equals("h1") || element.tagName().equals("h2")) {
-                // Zapisz poprzednią sekcję
                 if (currentTitle != null) {
                     contents.add(ArxivContent.builder().title(currentTitle).content(currentContent.toString()).build());
                     currentContent = new StringBuilder();
-                    currentImages = new ArrayList<>();
                 }
-                // Ustaw nowy tytuł
                 currentTitle = element.text();
             } else if (element.tagName().equals("audio")) {
-                // Przetwarzaj audio
                 Element source = element.selectFirst("source");
                 if (source != null) {
                     currentContent.append(getTranscriptionOfAudioFile(centralaUrl + "/dane/" + source.attr("src")))
@@ -160,18 +147,14 @@ public class CentralaArxivTask extends AbstractTask {
                 }
                 currentContent.append(element.text()).append("\n");
             } else if (element.tagName().equals("div") && element.className().equals("authors")) {
-                // Przetwarzaj authors
                 currentContent.append(element.text()).append("\n");
             } else if (element.tagName().equals("div") && element.id().equals("abstract")) {
-                // Przetwarzaj abstrakt
                 currentContent.append(element.text()).append("\n");
             } else if (element.tagName().equals("p") && element.parents().hasClass("chicago-bibliography")) {
-                // Przetwarzaj cytaty
                 currentContent.append(element.text()).append("\n");
             } else if (element.tagName().equals("p")) {
                 currentContent.append(element.text()).append("\n");
             } else if (element.tagName().equals("figure")) {
-                //przetwarzaj img
                 Element img = element.selectFirst("img");
                 if (img != null) {
                     currentContent.append(getDescriptionOfImageFile(centralaUrl + "/dane/" + img.attr("src"),
@@ -182,7 +165,6 @@ public class CentralaArxivTask extends AbstractTask {
             }
         }
 
-        // Dodaj ostatnią sekcję
         if (currentTitle != null) {
             contents.add(ArxivContent.builder().title(currentTitle).content(currentContent.toString()).build());
         }
