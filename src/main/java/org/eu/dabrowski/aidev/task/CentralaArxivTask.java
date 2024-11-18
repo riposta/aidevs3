@@ -2,7 +2,6 @@ package org.eu.dabrowski.aidev.task;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
@@ -161,7 +160,6 @@ public class CentralaArxivTask extends AbstractTask {
         return contents;
     }
 
-    @PostConstruct
     @SneakyThrows
     public void init() {
         String unparsedContent = fileClient.getFileContent(centralaUrl + "/dane/arxiv-draft.html");
@@ -179,6 +177,7 @@ public class CentralaArxivTask extends AbstractTask {
     @Override
     @SneakyThrows
     Object compute(Object object) {
+        init();
         String questionsFileString = fileClient.getFileContent(centralaUrl + "/data/" + centralaApiKey + "/arxiv.txt");
         ObjectNode responseNode = objectMapper.createObjectNode();
         for (String line : questionsFileString.split("\\r?\\n")) {
