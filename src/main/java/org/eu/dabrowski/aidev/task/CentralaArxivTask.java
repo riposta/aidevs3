@@ -26,6 +26,7 @@ import org.springframework.ai.openai.api.OpenAiAudioApi;
 import org.springframework.ai.reader.JsonReader;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -62,6 +63,7 @@ public class CentralaArxivTask extends AbstractTask {
 
     private List<ArxivContent> contents;
 
+    @Qualifier("arvix")
     private final VectorStore arvixVectorStore;
 
 

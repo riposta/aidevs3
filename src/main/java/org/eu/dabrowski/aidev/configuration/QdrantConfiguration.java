@@ -7,6 +7,7 @@ import org.springframework.ai.autoconfigure.vectorstore.qdrant.QdrantConnectionD
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.qdrant.QdrantVectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,9 @@ public class QdrantConfiguration {
 
     @Value("${qdrant.arvix.collection-name}")
     private String arvixCollectionName;
+
+    @Value("${qdrant.wektory.collection-name:wektory}")
+    private String wektoryCollectionName;
 
     @Bean
     public QdrantClient qdrantClient() {
@@ -31,8 +35,15 @@ public class QdrantConfiguration {
         return new QdrantClient(grpcClientBuilder.build());
     }
 
+    @Qualifier("arvix")
     @Bean
     public VectorStore arvixVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
         return new QdrantVectorStore(qdrantClient, arvixCollectionName, embeddingModel, true);
+    }
+
+    @Qualifier("wektory")
+    @Bean
+    public VectorStore wektoryVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
+        return new QdrantVectorStore(qdrantClient, wektoryCollectionName, embeddingModel, true);
     }
 }
