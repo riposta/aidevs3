@@ -2,7 +2,8 @@ package org.eu.dabrowski.aidev.client;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eu.dabrowski.aidev.configuration.FeignClientConfiguration;
-import org.eu.dabrowski.aidev.model.centrala.QueryRequest;
+import org.eu.dabrowski.aidev.model.centrala.QueryDatabaseRequest;
+import org.eu.dabrowski.aidev.model.centrala.QueryLoopRequest;
 import org.eu.dabrowski.aidev.model.centrala.ReportRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,12 @@ public interface CentralaClient {
     JsonNode report(@RequestBody ReportRequest request);
 
     @PostMapping(value = "/apidb")
-    JsonNode apidb(@RequestBody QueryRequest request);
+    JsonNode apidb(@RequestBody QueryDatabaseRequest request);
+
+    @PostMapping(value = "/places")
+    JsonNode places(@RequestBody QueryLoopRequest request);
+
+    @PostMapping(value = "/people")
+    JsonNode people(@RequestBody QueryLoopRequest request);
 
 }

@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryRequest {
-    private String task;
+public class QueryLoopRequest {
     private String apikey;
-    private Object query;
+    private String query;
 }

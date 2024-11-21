@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.Logger;
 import feign.RequestInterceptor;
-import feign.Retryer;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
@@ -21,10 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.util.UUID;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 @Configuration
 public class FeignClientConfiguration {
 
@@ -37,6 +32,8 @@ public class FeignClientConfiguration {
     public Decoder jsonDecoder() {
         return new JacksonDecoder(new ObjectMapper().findAndRegisterModules().configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false));
     }
+
+
 
     @Bean
     public ObjectMapper feignObjectMapper() {
@@ -66,9 +63,8 @@ public class FeignClientConfiguration {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new ErrorDecoder.Default();
+        return new CustomErrorDecoder();
     }
-
 
     @Bean
     Logger.Level feignLoggerLevel() {

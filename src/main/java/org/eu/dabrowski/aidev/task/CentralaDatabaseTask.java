@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eu.dabrowski.aidev.client.CentralaClient;
 import org.eu.dabrowski.aidev.client.FileClient;
 import org.eu.dabrowski.aidev.client.XyzClient;
-import org.eu.dabrowski.aidev.model.centrala.QueryRequest;
+import org.eu.dabrowski.aidev.model.centrala.QueryDatabaseRequest;
 import org.eu.dabrowski.aidev.model.centrala.ReportRequest;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -82,7 +82,7 @@ public class CentralaDatabaseTask extends AbstractTask {
             if(userMsg.contains("DONE")) {
                 break;
             }else{
-                userMsg = centralaClient.apidb(QueryRequest.builder()
+                userMsg = centralaClient.apidb(QueryDatabaseRequest.builder()
                                 .apikey(centralaApiKey)
                                 .task("database")
                                 .query(userMsg)
