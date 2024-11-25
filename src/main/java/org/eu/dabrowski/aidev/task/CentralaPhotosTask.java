@@ -101,7 +101,7 @@ public class CentralaPhotosTask extends AbstractTask {
                         .param(CHAT_MEMORY_CONVERSATION_ID_KEY, id))
                 .call()
                 .chatResponse().getResult().getOutput().getContent();
-        if (chatResponse.equals("ERROR")) {
+        if (chatResponse.contains("ERROR")) {
             return List.of();
         } else if (isValidJSON(chatResponse)) {
             return objectMapper.readValue(chatResponse, new TypeReference<List<String>>() {
