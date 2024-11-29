@@ -23,6 +23,9 @@ public class QdrantConfiguration {
     @Value("${qdrant.wektory.collection-name:wektory}")
     private String wektoryCollectionName;
 
+    @Value("${qdrant.wektory.collection-name:notes}")
+    private String notesCollectionName;
+
     @Bean
     public QdrantClient qdrantClient() {
 
@@ -45,5 +48,11 @@ public class QdrantConfiguration {
     @Bean
     public VectorStore wektoryVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
         return new QdrantVectorStore(qdrantClient, wektoryCollectionName, embeddingModel, true);
+    }
+
+    @Qualifier("notes")
+    @Bean
+    public VectorStore notesVectorStore(EmbeddingModel embeddingModel, QdrantClient qdrantClient) {
+        return new QdrantVectorStore(qdrantClient, notesCollectionName, embeddingModel, true);
     }
 }
